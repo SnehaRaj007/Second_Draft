@@ -15,6 +15,7 @@ public interface AciveTableService {
 	int idInActiveTable(int tmpl_key,int routchankey);
 	void setDateForActive(Date date, int id);
 	public ByteArrayInputStream downloadactive();
+	boolean partnerExistsInActiveTable(int i);
 	
 
 }

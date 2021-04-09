@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.love2code.springboot.crudDemo.Model.InputJson;
 import com.love2code.springboot.crudDemo.entity.Fg_Routchan;
 import com.love2code.springboot.crudDemo.entity.Partners;
+import com.love2code.springboot.crudDemo.entity.PartnersWithFlg;
 import com.love2code.springboot.crudDemo.impl.BusinessLogicImpl;
 
 
@@ -145,6 +146,17 @@ public ResponseEntity<List<Partners>> allPartners()
  {
 	 
  }
+ /*************************************************************************************************************************
+  * *****************************************************************************************************************************
+    	 	  
+  ****This is api to download all inactive partners from DB on basis of arrived files for a date
+  *
+  */
+  @GetMapping("/partners/inactive")
+  public ResponseEntity<List<Partners>> inactivePartners() {
+ 		    
+ 	 return new ResponseEntity<List<Partners>>(businessLogicImpl.inactivePartners(),HttpStatus.OK);
+  }
 	  
 		
 }

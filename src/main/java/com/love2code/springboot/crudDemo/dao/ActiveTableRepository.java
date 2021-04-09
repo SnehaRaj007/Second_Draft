@@ -22,6 +22,7 @@ public interface ActiveTableRepository extends JpaRepository<Active, Integer> {
 	@Query("update Active a set a.date = ?1 where a.id = ?2")
 	void setDateForActive(Date date, int id);
 
-	
+	@Query("select case when count(a)> 0 then true else false end from Active a where a.producerId = ?1 or a.consumerId=?1")
+	boolean partnerExistsInActiveTable(int partnerID);
 
 }

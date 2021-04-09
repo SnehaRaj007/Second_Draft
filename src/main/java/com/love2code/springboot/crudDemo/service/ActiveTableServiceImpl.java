@@ -57,4 +57,9 @@ public class ActiveTableServiceImpl implements AciveTableService {
 	    return in;
 	}
 
+	@Override
+	public boolean partnerExistsInActiveTable(int partnerID) {
+		return activeTableRepository.partnerExistsInActiveTable(partnerID);
+	}
+
 }

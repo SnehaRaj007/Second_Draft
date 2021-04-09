@@ -22,12 +22,14 @@ import com.love2code.springboot.crudDemo.entity.ChanTemplateDTO;
 import com.love2code.springboot.crudDemo.entity.FgArrivedFile;
 import com.love2code.springboot.crudDemo.entity.Fg_Routchan;
 import com.love2code.springboot.crudDemo.entity.Partners;
+import com.love2code.springboot.crudDemo.entity.PartnersWithFlg;
 import com.love2code.springboot.crudDemo.exception.ResourceNotFoundException;
 import com.love2code.springboot.crudDemo.service.AciveTableService;
 import com.love2code.springboot.crudDemo.service.ArrivedFileResultsService;
 import com.love2code.springboot.crudDemo.service.Fg_RoutchanTempl_Service;
 import com.love2code.springboot.crudDemo.service.Fg_Routchan_Service;
 import com.love2code.springboot.crudDemo.service.PartnerService;
+import com.love2code.springboot.crudDemo.service.PartnerWithFlgService;
 
 @Service
 public class BusinessLogicImpl {
@@ -50,6 +52,9 @@ public class BusinessLogicImpl {
 
 	@Autowired
 	private Fg_RoutchanTempl_Service fg_RoutchanTempl_Service;
+	
+	@Autowired
+	private PartnerWithFlgService partnerWithFlgService;
 	
 	Logger logger = LoggerFactory.getLogger(BusinessLogicImpl.class);
 	
@@ -336,6 +341,43 @@ public class BusinessLogicImpl {
 				throw new ResourceNotFoundException("Resource Not Found");
 			}
 		return finnalFgRoutelist;
+	}
+
+/************************************************************************************************************************
+*To  get all inactive partners from DB on basis of arrived files for a date
+* 
+*/	
+
+	public List<Partners> inactivePartners() {
+		List<Partners>allPartners=allPartners();
+		List<Partners> partnersWithFlg=new  ArrayList<Partners>();
+		for(Partners tempPartner:allPartners ) 
+		{
+			String flag="inactive";
+			
+			PartnersWithFlg	 partnerflg=new PartnersWithFlg(tempPartner.getTp_object_id(),
+					tempPartner.getUser_id(),
+					tempPartner.getDate_invited(),
+					 flag);
+					 partnerWithFlgService.create(partnerflg);
+			
+			boolean partnerExistsInActiveTable=aciveTableService.partnerExistsInActiveTable(tempPartner.getTp_object_id());
+			if(partnerExistsInActiveTable)
+			{
+				flag="active";
+				partnerWithFlgService.setStatusForPartner(flag,tempPartner.getTp_object_id());
+				
+			}
+			else
+			{
+				partnersWithFlg.add(tempPartner);
+			}
+			
+			
+			
+		}
+		
+		return partnersWithFlg;
 	}
 
 }
