@@ -114,7 +114,7 @@ public class ExcelHelper {
 	   * 
 	   */
 	public static ByteArrayInputStream ActiveChannelsAndTemplateToExcel(List<Active> activeChannelsAndTemplate) {
-		String[] HEADERs = { "ROUTCHAN_TMPL_KEY", "ROUTCHAN_KEY","PROD_ORG_KEY","MAILBOX","CONS_ORG_KEY","ROUTCHAN_TMPL_NAME","ACTIVE","Date"};
+		String[] HEADERs = { "ROUTCHAN_TMPL_KEY", "ROUTCHAN_KEY","PROD_ORG_KEY","MAILBOX","CONS_ORG_KEY","ROUTCHAN_TMPL_NAME","ACTIVE","Date","Producer_ID","Consumer_ID"};
 		  String SHEET = "AllChannelsAndTemplateRepository_sheet";
 
 	    try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream();) {
@@ -146,6 +146,8 @@ public class ExcelHelper {
 	        Cell dateCell=row.createCell(7);
 		    dateCell.setCellValue(results.getDate());
 	        dateCell.setCellStyle(dateStyle);
+	        row.createCell(8).setCellValue(results.getProducerId());
+	        row.createCell(9).setCellValue(results.getConsumerId());
 	       
 	        
 	      }

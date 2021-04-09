@@ -28,5 +28,10 @@ public class PartnerServiceImpl implements PartnerService {
 		ByteArrayInputStream in = ExcelHelper.AllPartnersToExcel(allPartners);
 	    return in;
 	}
+	@Override
+	public int idOfPartner(String partnerName) {
+		
+		return partnerRepository.idOfPartner(partnerName);
+	}
 
 }

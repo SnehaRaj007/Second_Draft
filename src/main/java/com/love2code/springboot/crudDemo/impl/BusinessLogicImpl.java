@@ -225,9 +225,41 @@ public class BusinessLogicImpl {
 		}
 		return fg_arrive_list;
 	}
-	/*
-	 * METHOD 5 (To find list of active channels and templates on basis of user entered date and -1)
-	 */
+	
+/*
+* METHOD 5 (To return Partner ID from Partners (SCI_CODE_USR_XREF) table)
+*/	
+	
+	private Integer[] returnPartnerIdfromPartnersTable(String producerName,String consumerName)
+	{
+	Integer[] partnerIds=new Integer[2];
+	int producerId=0;
+	int consumerId=0;
+	producerId=partnerService.idOfPartner(producerName);
+	logger.info("producer_Id"+producerId);
+	consumerId=partnerService.idOfPartner(consumerName);
+	logger.info("consumerId"+consumerId);
+	if(producerId!=0 && consumerId!=0)
+	{
+	partnerIds[0]=producerId;
+	partnerIds[1]=consumerId;
+	}
+	if(partnerIds==null)
+	{
+		throw new ResourceNotFoundException("Resource Not Found");
+	}
+	return partnerIds;
+	}
+	
+	
+	
+	
+	
+	
+	
+/*
+* METHOD 6 (Utility Method To find list of active channels and templates on basis of user entered date and -14 days)
+*/
 	public List<List<Fg_Routchan>> returnActiveChannelsAndTemplatesList(List<FgArrivedFile> fg_arrive_list) {
 		List <List<Fg_Routchan>> finnalFgRoutelist=new ArrayList<List<Fg_Routchan>>();
 		for (FgArrivedFile templist:fg_arrive_list)
@@ -244,6 +276,11 @@ public class BusinessLogicImpl {
 				for (ChanTemplateDTO tempDTO:tempjoin)
 				{
 				 
+				
+			Integer[] partnerIds = returnPartnerIdfromPartnersTable(tempDTO.getPv_mbx_pattern(),tempDTO.getConsid_type());
+				
+		
+							
 				boolean entryexistsinActiveTable=aciveTableService.existsInActiveTable(tempDTO.getRoutchan_tmpl_key(), tempDTO.getRoutchan_key());
 				 if(!entryexistsinActiveTable)
 				 {
@@ -255,7 +292,9 @@ public class BusinessLogicImpl {
 							 tempDTO.getTmpl_name(),
 							 tempDTO.getMailbox(),
 							 "Yes", 
-							 templist.getStatus());
+							 templist.getStatus(),
+							 partnerIds[0].intValue(),
+							 partnerIds[1].intValue());
 					 aciveTableService.create(active);
 					 
 					
@@ -277,6 +316,10 @@ public class BusinessLogicImpl {
 		}
 		return finnalFgRoutelist;
 	}
+/*
+* METHOD 7 (Main Method To find list of active channels and templates on basis of user entered date and -14 days,
+* this methods calls the Method 6 for looping and fetching values)
+*/	
 
 	public List<List<Fg_Routchan>> activechannelsAndTemplates(String userEnteredDate) {
 		Date toDate=userEnteredDateWithHours(userEnteredDate);

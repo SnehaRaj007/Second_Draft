@@ -61,7 +61,11 @@ public class Active implements java.io.Serializable{
 	@Column(name="DATE")
 	private Date date;
 	
+	@Column(name="PRODUCER_ID")
+	private int producerId;
 	
+	@Column(name="CONSUMER_ID")
+	private int consumerId;
 
 	public Active() {
 		
@@ -71,6 +75,50 @@ public class Active implements java.io.Serializable{
 	
 
 	
+
+
+
+	public int getProducerId() {
+		return producerId;
+	}
+
+
+
+
+
+
+
+
+	public void setProducerId(int producerId) {
+		this.producerId = producerId;
+	}
+
+
+
+
+
+
+
+
+	public int getConsumerId() {
+		return consumerId;
+	}
+
+
+
+
+
+
+
+
+	public void setConsumerId(int consumerId) {
+		this.consumerId = consumerId;
+	}
+
+
+
+
+
 
 
 
@@ -240,8 +288,17 @@ public class Active implements java.io.Serializable{
 
 
 
+	
+
+
+
+
+
+
+
+
 	public Active(int routchan_tmpl_key, int routchan_key, String prod_org_key, String cons_org_key,
-			String routchan_tmpl_name, String mailbox, String active, Date date) {
+			String routchan_tmpl_name, String mailbox, String active, Date date, int producerId, int consumerId) {
 		this.routchan_tmpl_key = routchan_tmpl_key;
 		this.routchan_key = routchan_key;
 		this.prod_org_key = prod_org_key;
@@ -250,6 +307,8 @@ public class Active implements java.io.Serializable{
 		this.mailbox = mailbox;
 		this.active = active;
 		this.date = date;
+		this.producerId = producerId;
+		this.consumerId = consumerId;
 	}
 
 
@@ -263,8 +322,18 @@ public class Active implements java.io.Serializable{
 	public String toString() {
 		return "Active [id=" + id + ", routchan_tmpl_key=" + routchan_tmpl_key + ", routchan_key=" + routchan_key
 				+ ", prod_org_key=" + prod_org_key + ", cons_org_key=" + cons_org_key + ", routchan_tmpl_name="
-				+ routchan_tmpl_name + ", mailbox=" + mailbox + ", active=" + active + ", date=" + date + "]";
+				+ routchan_tmpl_name + ", mailbox=" + mailbox + ", active=" + active + ", date=" + date
+				+ ", producerId=" + producerId + ", consumerId=" + consumerId + "]";
 	}
+
+
+
+
+
+
+
+
+	
 
 
 
