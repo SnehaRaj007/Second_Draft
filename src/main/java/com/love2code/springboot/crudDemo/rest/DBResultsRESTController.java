@@ -129,11 +129,7 @@ public ResponseEntity<List<Partners>> allPartners()
 ****This is api to get all inactive channels and templates from DB 
 *
 */	  
- @GetMapping("/channelsAndTemplates/inactive")
- public void example5()
- {
-	 
- }	  
+ 	  
 	  
  /*************************************************************************************************************************
   * *************************************************************************************************************************
@@ -149,7 +145,7 @@ public ResponseEntity<List<Partners>> allPartners()
  /*************************************************************************************************************************
   * *****************************************************************************************************************************
     	 	  
-  ****This is api to download all inactive partners from DB on basis of arrived files for a date
+  ****This is api to get all inactive partners from DB
   *
   */
   @GetMapping("/partners/inactive")
@@ -157,6 +153,21 @@ public ResponseEntity<List<Partners>> allPartners()
  		    
  	 return new ResponseEntity<List<Partners>>(businessLogicImpl.inactivePartners(),HttpStatus.OK);
   }
+  /*************************************************************************************************************************
+  *************************************************************************************************************************
+  *This is api to get all inactive routing channels and templates from DB
+  *
+  *
+  */
+   		
+  @GetMapping("/channelsAndTemplates/inactive")
+   
+  public ResponseEntity<List<Fg_Routchan>> inactiveChannelsAndTemplate()
+   {
+  	 return new ResponseEntity<List<Fg_Routchan>>(businessLogicImpl.inactiveChannelsAndTemplate(),HttpStatus.OK);
+  	 
+   }
+   	  
 	  
 		
 }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.love2code.springboot.crudDemo.entity.Active;
 import com.love2code.springboot.crudDemo.entity.ChanTemplateDTO;
+import com.love2code.springboot.crudDemo.entity.ChannelsAndTemplatesWithFlg;
 import com.love2code.springboot.crudDemo.entity.FgArrivedFile;
 import com.love2code.springboot.crudDemo.entity.Fg_Routchan;
 import com.love2code.springboot.crudDemo.entity.Partners;
@@ -26,6 +27,7 @@ import com.love2code.springboot.crudDemo.entity.PartnersWithFlg;
 import com.love2code.springboot.crudDemo.exception.ResourceNotFoundException;
 import com.love2code.springboot.crudDemo.service.AciveTableService;
 import com.love2code.springboot.crudDemo.service.ArrivedFileResultsService;
+import com.love2code.springboot.crudDemo.service.ChannelsAndTemplateWithFlagService;
 import com.love2code.springboot.crudDemo.service.Fg_RoutchanTempl_Service;
 import com.love2code.springboot.crudDemo.service.Fg_Routchan_Service;
 import com.love2code.springboot.crudDemo.service.PartnerService;
@@ -55,6 +57,9 @@ public class BusinessLogicImpl {
 	
 	@Autowired
 	private PartnerWithFlgService partnerWithFlgService;
+	
+	@Autowired
+	private ChannelsAndTemplateWithFlagService channelsAndTemplateWithFlagService;
 	
 	Logger logger = LoggerFactory.getLogger(BusinessLogicImpl.class);
 	
@@ -379,5 +384,37 @@ public class BusinessLogicImpl {
 		
 		return partnersWithFlg;
 	}
+
+public List<Fg_Routchan> inactiveChannelsAndTemplate() {
+	List<Fg_Routchan> allChannelsAndTemplates=allChannelsAndTemplate();
+	List<Fg_Routchan> inactiveChannelsAndTemplate=new  ArrayList<Fg_Routchan>();
+	for (Fg_Routchan tempChannelsAndTemplates:allChannelsAndTemplates )
+	{
+		String flag="inactive";
+		
+		ChannelsAndTemplatesWithFlg	 channelsAndTemplatesWithFlg=new ChannelsAndTemplatesWithFlg(tempChannelsAndTemplates.getRoutchan_tmpl_key(),
+				tempChannelsAndTemplates.getRoutchan_key(),
+				tempChannelsAndTemplates.getMailbox(),
+				tempChannelsAndTemplates.getProd_org_key(),
+				tempChannelsAndTemplates.getCons_org_key(),
+				tempChannelsAndTemplates.getFg_Routchan_Template().getTmpl_name(),
+				 flag);
+		channelsAndTemplateWithFlagService.create(channelsAndTemplatesWithFlg);
+		
+		boolean channelExistsInActiveTable=aciveTableService.channelExistsInActiveTable(tempChannelsAndTemplates.getRoutchan_key());
+		if(channelExistsInActiveTable)
+		{
+			flag="active";
+			channelsAndTemplateWithFlagService.setStatusForChannel(flag, tempChannelsAndTemplates.getRoutchan_key());
+			//!!!!CHECK IF IN CHANNEL DB TABLE WT IS KEY
+		}
+		else
+		{
+			inactiveChannelsAndTemplate.add(tempChannelsAndTemplates);
+		}
+		
+	}
+	return inactiveChannelsAndTemplate;
+}
 
 }

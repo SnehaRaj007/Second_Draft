@@ -16,6 +16,7 @@ public interface AciveTableService {
 	void setDateForActive(Date date, int id);
 	public ByteArrayInputStream downloadactive();
 	boolean partnerExistsInActiveTable(int i);
+	public boolean channelExistsInActiveTable(int routchan_key);
 	
 
 }

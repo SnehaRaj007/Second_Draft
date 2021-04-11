@@ -62,4 +62,10 @@ public class ActiveTableServiceImpl implements AciveTableService {
 		return activeTableRepository.partnerExistsInActiveTable(partnerID);
 	}
 
+	@Override
+	public boolean channelExistsInActiveTable(int routchan_key) {
+		
+		return activeTableRepository.channelExistsInActiveTable(routchan_key);
+	}
+
 }

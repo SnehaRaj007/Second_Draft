@@ -25,4 +25,7 @@ public interface ActiveTableRepository extends JpaRepository<Active, Integer> {
 	@Query("select case when count(a)> 0 then true else false end from Active a where a.producerId = ?1 or a.consumerId=?1")
 	boolean partnerExistsInActiveTable(int partnerID);
 
+	@Query("select case when count(a)> 0 then true else false end from Active a where a.routchan_key = ?1")
+	boolean channelExistsInActiveTable(int routchan_key);
+
 }
