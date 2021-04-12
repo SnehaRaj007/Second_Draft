@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.love2code.springboot.crudDemo.Model.InputJson;
+import com.love2code.springboot.crudDemo.entity.Active;
 import com.love2code.springboot.crudDemo.entity.Fg_Routchan;
 import com.love2code.springboot.crudDemo.entity.Partners;
-import com.love2code.springboot.crudDemo.entity.PartnersWithFlg;
 import com.love2code.springboot.crudDemo.impl.BusinessLogicImpl;
 
 
@@ -88,18 +88,10 @@ public ResponseEntity<List<Partners>> allPartners()
  * *************************************************************************************************************************
   	 	  
  ***This is api to get all active channels and templates from DB on basis of arrived files for a date
- * @return 
+ * 
  *
  */
- 
- 
- /*@GetMapping("/channelsAndTemplates/active")
- public ResponseEntity<List<List<Fg_Routchan>>> activechannelsAndTemplates()
- {
-	 String userEnteredDate="2020-02-02";
- 	 return new ResponseEntity<List<List<Fg_Routchan>>>(businessLogicImpl.activechannelsAndTemplates(userEnteredDate),HttpStatus.OK);
- 	 
- }*/
+
  
  @PostMapping("/channelsAndTemplates/active")
  public ResponseEntity<List<List<Fg_Routchan>>> activechannelsAndTemplates(@RequestBody InputJson inputJson )
@@ -129,7 +121,13 @@ public ResponseEntity<List<Partners>> allPartners()
 ****This is api to get all inactive channels and templates from DB 
 *
 */	  
- 	  
+ @GetMapping("/channelsAndTemplates/inactive")
+ 
+ public ResponseEntity<List<Fg_Routchan>> inactiveChannelsAndTemplate()
+  {
+ 	 return new ResponseEntity<List<Fg_Routchan>>(businessLogicImpl.inactiveChannelsAndTemplate(),HttpStatus.OK);
+ 	 
+  }  
 	  
  /*************************************************************************************************************************
   * *************************************************************************************************************************
@@ -155,19 +153,28 @@ public ResponseEntity<List<Partners>> allPartners()
   }
   /*************************************************************************************************************************
   *************************************************************************************************************************
-  *This is api to get all inactive routing channels and templates from DB
+  *This is api to download all inactive partners from DB
   *
   *
   */
-   		
-  @GetMapping("/channelsAndTemplates/inactive")
-   
-  public ResponseEntity<List<Fg_Routchan>> inactiveChannelsAndTemplate()
-   {
-  	 return new ResponseEntity<List<Fg_Routchan>>(businessLogicImpl.inactiveChannelsAndTemplate(),HttpStatus.OK);
-  	 
-   }
-   	  
+  @GetMapping("/partners/inactive/download")
+  public void fr()
+  {
 	  
+  }
+  
+  /*************************************************************************************************************************
+   *************************************************************************************************************************
+  *This is api to delete all entries older than an year  from Active Table
+  *
+  *
+  */  	  
+  @GetMapping("/inactive/delete")
+  
+  public ResponseEntity<List<Active>> deleteEntriesOlderThanAnYearFromActiveTable()
+   {
+  	 return new ResponseEntity<List<Active>>(businessLogicImpl.deleteEntriesOlderThanAnYearFromActiveTable(),HttpStatus.OK);
+  	 
+   }  
 		
 }

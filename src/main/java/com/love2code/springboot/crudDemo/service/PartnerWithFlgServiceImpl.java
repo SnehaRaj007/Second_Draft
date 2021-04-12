@@ -28,4 +28,8 @@ public class PartnerWithFlgServiceImpl implements PartnerWithFlgService {
 		
 	}
 
+
+
+	
+
 }

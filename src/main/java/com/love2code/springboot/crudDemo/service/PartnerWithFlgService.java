@@ -7,5 +7,6 @@ public interface PartnerWithFlgService {
 	
 	public PartnersWithFlg create(PartnersWithFlg partnersWithFlg);
 	void setStatusForPartner(String status, int id);
+	
 
 }

@@ -254,10 +254,6 @@ public class BusinessLogicImpl {
 	partnerIds[0]=producerId;
 	partnerIds[1]=consumerId;
 	}
-	if(partnerIds==null)
-	{
-		throw new ResourceNotFoundException("Resource Not Found");
-	}
 	return partnerIds;
 	}
 	
@@ -316,6 +312,8 @@ public class BusinessLogicImpl {
 					 logger.info("ID :"+id);
 					 aciveTableService.setDateForActive(templist.getStatus(),id);
 				 }
+				 
+				 
 				 
 				
 				}
@@ -384,6 +382,10 @@ public class BusinessLogicImpl {
 		
 		return partnersWithFlg;
 	}
+/************************************************************************************************************************
+*To  get all inactive channels and templates from DB on basis of arrived files for a date
+* 
+*/	
 
 public List<Fg_Routchan> inactiveChannelsAndTemplate() {
 	List<Fg_Routchan> allChannelsAndTemplates=allChannelsAndTemplate();
@@ -406,7 +408,7 @@ public List<Fg_Routchan> inactiveChannelsAndTemplate() {
 		{
 			flag="active";
 			channelsAndTemplateWithFlagService.setStatusForChannel(flag, tempChannelsAndTemplates.getRoutchan_key());
-			//!!!!CHECK IF IN CHANNEL DB TABLE WT IS KEY
+			
 		}
 		else
 		{
@@ -414,7 +416,71 @@ public List<Fg_Routchan> inactiveChannelsAndTemplate() {
 		}
 		
 	}
+	
 	return inactiveChannelsAndTemplate;
 }
+/************************************************************************************************************************
+*To  delete all rows older than one year from Active Table
+* 
+*/
+
+public List<Active> deleteEntriesOlderThanAnYearFromActiveTable() {
+	List<Active> allActive=aciveTableService.findall();
+	List<Active> deletedActiveOlderThanAnYear=new  ArrayList<Active>();
+	if(allActive!=null)
+	{
+		Date previousYear=getPreviousYear();
+		deletedActiveOlderThanAnYear=deletedActiveOlderThanAnYear(previousYear,allActive);
+		if(deletedActiveOlderThanAnYear==null)
+		{
+			//Work on exiting with message--NOTHING TO DELETE
+		}
+	}
+	else
+	{
+		throw new ResourceNotFoundException("Resource Not Found");
+	}
+	return deletedActiveOlderThanAnYear;
+	
+	
+	
+}
+
+/*
+* METHOD 8 (To find the list of rows from active table to be deleted, called by main method)
+*/
+private List<Active> deletedActiveOlderThanAnYear(Date previousYear, List<Active> allActive) {
+List<Active> deletedActiveOlderThanAnYear=new  ArrayList<Active>();
+	
+	for(Active tempActive:allActive)
+	{
+		Date date = tempActive.getDate();
+		boolean isDateOlderThanOneYear = date.before(previousYear);
+		if(isDateOlderThanOneYear)
+			
+		{
+			aciveTableService.delete(tempActive);
+			deletedActiveOlderThanAnYear.add(tempActive);
+			
+		}
+	}
+	
+	
+	
+	return deletedActiveOlderThanAnYear;
+	
+}
+
+/*
+* METHOD 9 (To find previous year, called by main method)
+*/
+private Date getPreviousYear() {
+	Calendar cal = Calendar.getInstance();
+    Date cdate = cal.getTime();
+    cal.add(Calendar.YEAR, -1);
+    Date previousYear=cal.getTime();
+    return previousYear;
+	}
+
 
 }
