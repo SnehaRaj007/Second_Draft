@@ -43,7 +43,7 @@ public class Fg_Routchan_Template implements java.io.Serializable {
 
 
 	public Fg_Routchan_Template() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 

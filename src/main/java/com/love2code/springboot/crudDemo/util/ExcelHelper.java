@@ -27,9 +27,9 @@ public class ExcelHelper {
 	 * 
 	 * 
 	 */
-	  public static ByteArrayInputStream AllPartnersToExcel(List<Partners> allPartners) {
+	  public static ByteArrayInputStream AllPartnersToExcel(List<Partners> allPartners,String filename) {
 		  String[] HEADERs = { "tp_object_id", "user_id", "date_invited"};
-		  String SHEET = "AllPartnersRepository_sheet";
+		  String SHEET = filename;
 
 	    try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream();) {
 	      Sheet sheet = workbook.createSheet(SHEET);
@@ -72,9 +72,9 @@ public class ExcelHelper {
  * 
  * 
  */
-	  public static ByteArrayInputStream AllChannelsAndTemplateToExcel(List<Fg_Routchan> allChannelsAndTemplate) {
+	  public static ByteArrayInputStream AllChannelsAndTemplateToExcel(List<Fg_Routchan> allChannelsAndTemplate,String filename) {
 		  String[] HEADERs = { "routchan_key", "routchan_tmpl_key", "tmpl_name","producer","mailbox","consumer"};
-		  String SHEET = "AllChannelsAndTemplateRepository_sheet";
+		  String SHEET = filename;
 
 	    try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream();) {
 	      Sheet sheet = workbook.createSheet(SHEET);

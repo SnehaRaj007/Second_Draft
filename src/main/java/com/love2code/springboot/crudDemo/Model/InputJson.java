@@ -5,7 +5,7 @@ public class InputJson {
 	String date;
 
 	public InputJson() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public InputJson(String date) {

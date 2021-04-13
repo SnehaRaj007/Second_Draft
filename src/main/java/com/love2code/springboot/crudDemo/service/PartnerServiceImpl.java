@@ -22,16 +22,21 @@ public class PartnerServiceImpl implements PartnerService {
 		return partnerRepository.findAll();
 	}
 	@Override
-	public ByteArrayInputStream downloadall() {
+	public ByteArrayInputStream downloadall(String filename) {
 		List<Partners> allPartners=partnerRepository.findAll();
 		
-		ByteArrayInputStream in = ExcelHelper.AllPartnersToExcel(allPartners);
+		ByteArrayInputStream in = ExcelHelper.AllPartnersToExcel(allPartners,filename);
 	    return in;
 	}
 	@Override
 	public int idOfPartner(String partnerName) {
 		
 		return partnerRepository.idOfPartner(partnerName);
+	}
+	@Override
+	public ByteArrayInputStream downloadall(List<Partners> inactivePartnersList,String filename) {
+		ByteArrayInputStream in = ExcelHelper.AllPartnersToExcel(inactivePartnersList,filename);
+	    return in;
 	}
 
 }

@@ -40,10 +40,16 @@ public class Fg_Routchan_Impl implements Fg_Routchan_Service {
 	}
 
 	@Override
-	public ByteArrayInputStream downloadall() {
+	public ByteArrayInputStream downloadall(String filename) {
        List<Fg_Routchan> allChannelsAndTemplate=fG_RoutchanRepository.findAll();
 		
-		ByteArrayInputStream in = ExcelHelper.AllChannelsAndTemplateToExcel(allChannelsAndTemplate);
+		ByteArrayInputStream in = ExcelHelper.AllChannelsAndTemplateToExcel(allChannelsAndTemplate,filename);
+	    return in;
+	}
+
+	@Override
+	public ByteArrayInputStream downloadall(List<Fg_Routchan> inactiveChannelsAndTemplates, String filename) {
+		ByteArrayInputStream in = ExcelHelper.AllChannelsAndTemplateToExcel(inactiveChannelsAndTemplates,filename);
 	    return in;
 	}
 	

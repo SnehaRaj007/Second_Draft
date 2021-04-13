@@ -100,7 +100,7 @@ public class BusinessLogicImpl {
 */
 	public ResponseEntity<Resource> allChannelsAndTemplateDownload() {
 	    String filename = "AllChannelsAndTemplateRepository_sheet.xlsx";
-	    InputStreamResource file = new InputStreamResource(fg_Routchan_Service.downloadall());
+	    InputStreamResource file = new InputStreamResource(fg_Routchan_Service.downloadall(filename));
 	    
 	    if (!file.exists()) {
 	    	throw new ResourceNotFoundException("Resource Not Found");
@@ -116,7 +116,7 @@ public class BusinessLogicImpl {
 */
 	 public ResponseEntity<Resource> allPartnersDownload() {
 		    String filename = "AllPartnersRepository_sheet.xlsx";
-		    InputStreamResource file = new InputStreamResource(partnerService.downloadall());
+		    InputStreamResource file = new InputStreamResource(partnerService.downloadall(filename));
 		    if (!file.exists()) {
 		    	throw new ResourceNotFoundException("Resource Not Found");
 		     }
@@ -431,9 +431,9 @@ public List<Active> deleteEntriesOlderThanAnYearFromActiveTable() {
 	{
 		Date previousYear=getPreviousYear();
 		deletedActiveOlderThanAnYear=deletedActiveOlderThanAnYear(previousYear,allActive);
-		if(deletedActiveOlderThanAnYear==null)
+		if(deletedActiveOlderThanAnYear.isEmpty())
 		{
-			//Work on exiting with message--NOTHING TO DELETE
+			throw new ResourceNotFoundException("Nothing to delete");
 		}
 	}
 	else
@@ -441,6 +441,7 @@ public List<Active> deleteEntriesOlderThanAnYearFromActiveTable() {
 		throw new ResourceNotFoundException("Resource Not Found");
 	}
 	return deletedActiveOlderThanAnYear;
+	
 	
 	
 	
@@ -476,11 +477,55 @@ List<Active> deletedActiveOlderThanAnYear=new  ArrayList<Active>();
 */
 private Date getPreviousYear() {
 	Calendar cal = Calendar.getInstance();
-    Date cdate = cal.getTime();
+     cal.getTime();
     cal.add(Calendar.YEAR, -1);
     Date previousYear=cal.getTime();
+    
     return previousYear;
 	}
+/************************************************************************************************************************
+*To  download  inactive partners 
+* 
+*/
 
+public ResponseEntity<Resource> inactivePartnersDownload() {
+    String filename = "InactivePartnersRepository_sheet.xlsx";
+    List<Partners> inactivePartnersList = inactivePartners();
+    InputStreamResource file = null;
+    if(!inactivePartnersList.isEmpty())
+    {
+    file = new InputStreamResource(partnerService.downloadall(inactivePartnersList,filename));
+    }
+    if (!file.exists()) {
+    	throw new ResourceNotFoundException("Resource Not Found");
+     }
+    return ResponseEntity.ok()
+        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+        .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+        .body(file);
+  }
+/************************************************************************************************************************
+*To  download  inactive channels and templates
+* 
+* 
+*/
+public ResponseEntity<Resource> inactiveChannelsAndTemplates() {
+    String filename = "InactiveChannelsAndTemplateRepository_sheet.xlsx";
+    List<Fg_Routchan> inactiveChannelsAndTemplates = inactiveChannelsAndTemplate();
+    InputStreamResource file = null;
+    if(!inactiveChannelsAndTemplates.isEmpty())
+    {
+    	file = new InputStreamResource(fg_Routchan_Service.downloadall(inactiveChannelsAndTemplates,filename));
+    }
+     
+    
+    if (!file.exists()) {
+    	throw new ResourceNotFoundException("Resource Not Found");
+     }
+    return ResponseEntity.ok()
+        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+        .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+        .body(file);
+  }
 
 }

@@ -26,7 +26,7 @@ import com.love2code.springboot.crudDemo.impl.BusinessLogicImpl;
 @RequestMapping("/api")
 public class DBResultsRESTController {
 	
-/****Autowiring the Business implementation Service 
+/****Auto Wiring the Business implementation Service 
  * 
  * 
  */
@@ -36,7 +36,7 @@ public class DBResultsRESTController {
 	
 /*************************************************************************************************************************
 *************************************************************************************************************************
-*This is api to get all existing routing channels and templates from DB
+*This is API to get all existing routing channels and templates from DB
 *
 *
 */
@@ -52,7 +52,7 @@ public ResponseEntity<List<Fg_Routchan>> allChannelsAndTemplate()
 /*************************************************************************************************************************
 *************************************************************************************************************************
 	 	  
-***This is api to get all existing partners from DB
+***This is API to get all existing partners from DB
 *
 */
 @GetMapping("/partners/all")
@@ -64,7 +64,7 @@ public ResponseEntity<List<Partners>> allPartners()
  /*************************************************************************************************************************
  *************************************************************************************************************************
  	 	  
- ***This is api to download all existing routing channels and templates from DB
+ ***This is API to download all existing routing channels and templates from DB
  *
  */	
  @GetMapping("/channelsAndTemplates/all/download")
@@ -76,7 +76,7 @@ public ResponseEntity<List<Partners>> allPartners()
  /*************************************************************************************************************************
   *************************************************************************************************************************
   	 	  
-  ***This is api to download all existing Partners from DB
+  ***This is API to download all existing Partners from DB
   *
   */	
  
@@ -87,7 +87,7 @@ public ResponseEntity<List<Partners>> allPartners()
  /*************************************************************************************************************************
  * *************************************************************************************************************************
   	 	  
- ***This is api to get all active channels and templates from DB on basis of arrived files for a date
+ ***This is API to get all active channels and templates from DB on basis of arrived files for a date
  * 
  *
  */
@@ -108,7 +108,7 @@ public ResponseEntity<List<Partners>> allPartners()
  /*************************************************************************************************************************
  * *****************************************************************************************************************************
    	 	  
- ****This is api to download all active channels and templates from DB on basis of arrived files for a date
+ ****This is API to download all active channels and templates from DB on basis of arrived files for a date
  *
  */
  @GetMapping("/channelsAndTemplates/active/download")
@@ -118,7 +118,7 @@ public ResponseEntity<List<Partners>> allPartners()
  /*************************************************************************************************************************
   * *************************************************************************************************************************
  	  
-****This is api to get all inactive channels and templates from DB 
+****This is API to get all inactive channels and templates from DB 
 *
 */	  
  @GetMapping("/channelsAndTemplates/inactive")
@@ -132,18 +132,17 @@ public ResponseEntity<List<Partners>> allPartners()
  /*************************************************************************************************************************
   * *************************************************************************************************************************
  	  
-****This is api to download all inactive channels and templates from DB 
+****This is API to download all inactive channels and templates from DB 
 *
 */
  @GetMapping("/channelsAndTemplates/inactive/download")
- public void example6()
- {
-	 
- }
+ public ResponseEntity<Resource> inactiveChannelsAndTemplates() {
+	    return businessLogicImpl.inactiveChannelsAndTemplates();
+}
  /*************************************************************************************************************************
   * *****************************************************************************************************************************
     	 	  
-  ****This is api to get all inactive partners from DB
+  ****This is API to get all inactive partners from DB
   *
   */
   @GetMapping("/partners/inactive")
@@ -153,19 +152,17 @@ public ResponseEntity<List<Partners>> allPartners()
   }
   /*************************************************************************************************************************
   *************************************************************************************************************************
-  *This is api to download all inactive partners from DB
+  *This is API to download all inactive partners from DB
   *
   *
   */
   @GetMapping("/partners/inactive/download")
-  public void fr()
-  {
-	  
+  public ResponseEntity<Resource> inactivePartnersDownload() {
+		 return businessLogicImpl.inactivePartnersDownload();
   }
-  
   /*************************************************************************************************************************
    *************************************************************************************************************************
-  *This is api to delete all entries older than an year  from Active Table
+  *This is API to delete all entries older than an year from Active Table
   *
   *
   */  	  

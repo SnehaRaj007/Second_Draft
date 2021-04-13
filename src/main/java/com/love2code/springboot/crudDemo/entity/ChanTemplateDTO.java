@@ -14,7 +14,7 @@ public class ChanTemplateDTO implements java.io.Serializable {
 	private String mailbox;
 	
 	public ChanTemplateDTO() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	
